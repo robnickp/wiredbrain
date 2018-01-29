@@ -44,7 +44,7 @@ export class RegisterPage {
   registerAccount(){
     if (this.reg.passWrd1 != this.reg.passWrd2){
       this.displayAlert('Password problem!', 'Passwords do not match')
-      this.reg.passWrd2 = ''
+      this.reg.passWrd1 = ''
       this.reg.passWrd2 = ''
     }
     else{
