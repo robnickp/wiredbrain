@@ -2,9 +2,18 @@
   <ion-toolbar color="secondary">
     <img src="assets/imgs/wired-brain-coffee-logo.png" class="logo">
   </ion-toolbar>
-  <ion-toolbar color="secondary">
-      <button ion-button clear [navPush]="logPage">Sign In</button> 
-    </ion-toolbar>
+
+  <ion-toolbar *ngIf="!loggedIn" color="secondary">
+    <button ion-button clear [navPush]="logPage">Sign In</button> 
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="loggedIn" color="secondary">
+    <button ion-button clear [navPush]="logPage">
+      <ion-icon name="contact"></ion-icon>
+      {{loggedIn}} logged in
+    </button> 
+    <button ion-button outline (click)="signOff()" small>Sign out</button>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>

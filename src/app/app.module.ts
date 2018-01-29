@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { AngularFireModule } from 'angularfire2'
 import { AngularFireDatabaseModule } from 'angularfire2/database'
 import { AngularFireAuthModule } from 'angularfire2/auth'
+import { UserServiceProvider } from '../providers/user-service/user-service';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDi1yVxdqGSWb1rvbYRcZ2_Ku0Okon1-5Y",
@@ -38,7 +39,8 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserServiceProvider
   ]
 })
 export class AppModule {}

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { HomePage } from '../home/home'
+import { AngularFireAuth } from 'angularfire2/auth'
+import * as firebase from 'firebase/app'
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -15,11 +18,47 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  reg = {
+    email: '',
+    passWrd1: '',
+    passWrd2: ''
+  }
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public alertCtrl: AlertController, private afAuth: AngularFireAuth) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+  }
+
+  displayAlert(alertTitle, alertSub){
+    let theAlert = this.alertCtrl.create({
+      title: alertTitle,
+      subTitle: alertSub,
+      buttons: ['OK']
+    })
+    theAlert.present()
+  }
+
+  registerAccount(){
+    if (this.reg.passWrd1 != this.reg.passWrd2){
+      this.displayAlert('Password problem!', 'Passwords do not match')
+      this.reg.passWrd2 = ''
+      this.reg.passWrd2 = ''
+    }
+    else{
+      this.afAuth.auth.createUserWithEmailAndPassword(this.reg.email, this.reg.passWrd1)
+        .then(res => this.regSuccess(res))
+        .catch(err => this.displayAlert('Error!', err))
+    }
+  }
+
+  regSuccess(result){
+    this.displayAlert(result.email, 'Account created for this email')
+    this.afAuth.auth.signInWithEmailAndPassword(this.reg.email, this.reg.passWrd1)
+      .then(res => this.navCtrl.push(HomePage))
+      .catch(err => this.displayAlert('Error!', err))
   }
 
 }
