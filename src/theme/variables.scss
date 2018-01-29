@@ -21,8 +21,13 @@ $app-direction: ltr;
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/theming/overriding-ionic-variables/
-
-
+$background-color: #5f6062;
+$card-ios-margin-left: 0px;
+$card-ios-margin-right: 0px;
+$card-md-margin-left: 0px;
+$card-md-margin-right: 0px;
+$card-wp-margin-left: 0px;
+$card-wp-margin-right: 0px;
 
 
 // Named Color Variables
@@ -34,11 +39,11 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
+  primary:    #FAE6C9,
+  secondary:  #644644,
+  danger:     #CA7171,
+  light:      #FA798A,
+  dark:       #7F7177
 );
 
 
@@ -86,3 +91,6 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+$font-family-md-base: "Raleway-Regular";
+$font-family-ios-base: "Raleway-Regular";
+$font-family-wp-base: "Raleway-Regular";
