@@ -16,6 +16,8 @@ export class UserServiceProvider {
 
   items: FirebaseListObservable<any>
 
+  success: boolean
+
   constructor(private afAuth: AngularFireAuth, public alertCtrl: AlertController,
             private storage: Storage, private fbDb: AngularFireDatabase) {
     this.items = fbDb.list('/users')
@@ -37,19 +39,19 @@ export class UserServiceProvider {
       .catch(err => this.displayAlert('Error logging out', err))
   }
 
-  storageControl(action, key?, value?){
+  storageControl(action, key?,value?) {
     if (action == 'set'){
-      return this.storage.set(key, value)      
+      return this.storage.set(key, value);
     }
     
     if (action == 'get'){
-      return this.storage.get(key)
+      return this.storage.get(key);
     }
 
     if (action == 'delete'){
       if (!key){
         this.displayAlert('Warning', 'About to delete all user data')
-        return this.storage.clear
+        return this.storage.clear()
       }
       else{
         this.displayAlert(key, 'Deleting this users data')
@@ -59,11 +61,12 @@ export class UserServiceProvider {
   }
 
   saveNewUser(user){
+    console.log('saveNewUser')
     let userObj = {
       creation: new Date().toDateString(),
       logins: 1,
       rewardCount: 0,
-      lastLogin: new Date().toLocaleString,
+      lastLogin: new Date().toLocaleString(),
       id: ''
     }
     this.items.push({
@@ -80,6 +83,50 @@ export class UserServiceProvider {
 
     return this.storageControl('get', user)
 
+  }
+
+  updateUser(theUser, theUserData){
+    console.log('updateuser')
+    let newData = {
+      creation: theUserData.creation,
+      logins: theUserData.logins+1,
+      rewardCount: theUserData.rewardCount,
+      lastLogin: new Date().toLocaleString(),
+      id: theUserData.id
+    }
+
+    this.items.update(newData.id, {
+      logins: newData.logins,
+      rewardCount: newData.rewardCount,
+      lastLogin: newData.lastLogin
+    })
+
+    return this.storageControl('set', theUser, newData)
+  }
+
+  logOn(user, password){
+    return this.afAuth.auth.signInWithEmailAndPassword(user, password)
+      .then(result => {
+        this.storageControl('get', user)
+          .then(returned => {
+            if (!returned){
+              this.saveNewUser(user)
+                .then(res => this.displayAlert(user, 'new account saved for this user'))
+            }
+            else{
+              this.updateUser(user, returned)
+                .then(updated => console.log(user, updated))
+            }
+          })
+
+          this.success = true
+          return result
+      })
+      .catch(err =>{
+        this.success = false
+        this.displayAlert('error loggin in', err)
+        return err
+      })
   }
 }
 
