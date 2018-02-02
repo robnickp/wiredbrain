@@ -12,6 +12,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth'
 import { UserServiceProvider } from '../providers/user-service/user-service';
 
 import { IonicStorageModule } from '@ionic/storage'
+import { RewardServiceProvider } from '../providers/reward-service/reward-service';
+
+import { RewardModalPageModule } from '../pages/reward-modal/reward-modal.module'
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDi1yVxdqGSWb1rvbYRcZ2_Ku0Okon1-5Y",
@@ -32,7 +35,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    RewardModalPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -43,7 +47,8 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    UserServiceProvider
+    UserServiceProvider,
+    RewardServiceProvider
   ]
 })
 export class AppModule {}

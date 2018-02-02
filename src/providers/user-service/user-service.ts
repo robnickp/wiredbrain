@@ -5,6 +5,7 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 
 import { Storage } from '@ionic/storage'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database'
+import { RewardServiceProvider } from '../reward-service/reward-service';
 /*
   Generated class for the UserServiceProvider provider.
 
@@ -19,7 +20,7 @@ export class UserServiceProvider {
   success: boolean
 
   constructor(private afAuth: AngularFireAuth, public alertCtrl: AlertController,
-            private storage: Storage, private fbDb: AngularFireDatabase) {
+            private storage: Storage, private fbDb: AngularFireDatabase, private reward: RewardServiceProvider) {
     this.items = fbDb.list('/users')
   }
 
@@ -89,7 +90,7 @@ export class UserServiceProvider {
     console.log('updateuser')
     let newData = {
       creation: theUserData.creation,
-      logins: theUserData.logins+1,
+      logins: theUserData.logins,
       rewardCount: theUserData.rewardCount,
       lastLogin: new Date().toLocaleString(),
       id: theUserData.id
@@ -114,8 +115,13 @@ export class UserServiceProvider {
                 .then(res => this.displayAlert(user, 'new account saved for this user'))
             }
             else{
-              this.updateUser(user, returned)
-                .then(updated => console.log(user, updated))
+              this.reward.rewardsCheck(user, returned)
+              .then(rewardResult => {
+
+                  this.updateUser(user, rewardResult)
+                  .then(updated => console.log(user, updated))
+
+              })
             }
           })
 
