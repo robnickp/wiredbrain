@@ -29,8 +29,9 @@ export class RewardServiceProvider {
         userData.rewardCount = firstReward
         resolve(userData)
       }
-      else if (userData.logins % 10 == 0){
+      else if (userData.logins % 5 == 0){
         let newCount = this.rewardChance(user, userData.rewardCount)
+        userData.rewardCount = newCount;
         resolve(userData)
       }
       else{

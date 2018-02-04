@@ -19,6 +19,8 @@ export class UserServiceProvider {
 
   success: boolean
 
+  user: string
+  
   constructor(private afAuth: AngularFireAuth, public alertCtrl: AlertController,
             private storage: Storage, private fbDb: AngularFireDatabase, private reward: RewardServiceProvider) {
     this.items = fbDb.list('/users')
@@ -36,7 +38,10 @@ export class UserServiceProvider {
   logout(){
     //this.storageControl('delete')
     this.afAuth.auth.signOut()
-      .then(loggedOut => this.displayAlert('Logged out', 'Come back and visit soon'))
+      .then(loggedOut => {
+        this.displayAlert('Logged out', 'Come back and visit soon')
+        this.success = false
+      })
       .catch(err => this.displayAlert('Error logging out', err))
   }
 
@@ -62,7 +67,7 @@ export class UserServiceProvider {
   }
 
   saveNewUser(user){
-    console.log('saveNewUser')
+    console.log('saveNewUser: ' + user)
     let userObj = {
       creation: new Date().toDateString(),
       logins: 1,
@@ -87,7 +92,7 @@ export class UserServiceProvider {
   }
 
   updateUser(theUser, theUserData){
-    console.log('updateuser')
+    console.log('updateuser: ' + theUser)
     let newData = {
       creation: theUserData.creation,
       logins: theUserData.logins,
