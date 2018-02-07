@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth'
 import * as firebase from 'firebase/app'
 import { UserServiceProvider } from '../../providers/user-service/user-service';
+import { FCM } from '@ionic-native/fcm'
 
 @Component({
   selector: 'page-home',
@@ -21,7 +22,8 @@ export class HomePage {
   loggedIn: any
 
   constructor(public navCtrl: NavController,
-    private afAuth: AngularFireAuth, private userService: UserServiceProvider) {
+    private afAuth: AngularFireAuth, private userService: UserServiceProvider,
+    private fcm: FCM) {
   }
 
   ngOnInit(){
@@ -32,6 +34,8 @@ export class HomePage {
         this.loggedIn = this.userService.user = user.email
       }
     })
+
+    this.initFcm()
   }
 
   signOff(){
@@ -48,4 +52,18 @@ export class HomePage {
       })
   }
 
+  initFcm(){
+    this.fcm.onNotification().subscribe(data =>{
+      if (data.wasTapped){
+        // app was closed and the notification was received in the device tray
+        console.log(data)
+        this.userService.displayAlert('Sent', data)
+      }
+      else{
+        // app was open
+        console.log(data)
+        this.userService.displayAlert('Sent', data)
+      }
+    })
+  }
 }
