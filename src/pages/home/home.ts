@@ -57,12 +57,12 @@ export class HomePage {
       if (data.wasTapped){
         // app was closed and the notification was received in the device tray
         console.log(data)
-        this.userService.displayAlert('Sent', data)
+        this.userService.displayAlert(data.title, data.content)
       }
       else{
         // app was open
         console.log(data)
-        this.userService.displayAlert('Sent', data)
+        this.userService.displayAlert(data.title, data.content)
       }
     })
   }
