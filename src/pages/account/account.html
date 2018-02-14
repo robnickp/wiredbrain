@@ -47,7 +47,7 @@
     </ion-list-header>
 
     <ion-item *ngFor="let reward of rewardInfo" class="myRewards">
-      {{reward.amount | currency:'USD':true}} off your order
+      {{reward.amount | currency:'USD':'symbol'}} off your order
     </ion-item>
   </ion-list>
 
