@@ -16,6 +16,7 @@ import { RewardServiceProvider } from '../providers/reward-service/reward-servic
 
 import { RewardModalPageModule } from '../pages/reward-modal/reward-modal.module'
 import { FCM } from '@ionic-native/fcm'
+import { MenuServiceProvider } from '../providers/menu-service/menu-service';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDi1yVxdqGSWb1rvbYRcZ2_Ku0Okon1-5Y",
@@ -50,7 +51,8 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserServiceProvider,
     RewardServiceProvider
-    ,FCM
+    ,FCM,
+    MenuServiceProvider
   ]
 })
 export class AppModule {}

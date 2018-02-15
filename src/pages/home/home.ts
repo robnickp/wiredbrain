@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth'
 import * as firebase from 'firebase/app'
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-import { FCM } from '@ionic-native/fcm'
+//import { FCM } from '@ionic-native/fcm'
 import { Platform } from 'ionic-angular';
 
 @Component({
@@ -24,7 +24,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth, private userService: UserServiceProvider,
-    private fcm: FCM,
+    //private fcm: FCM,
     private platform: Platform
   ) {
   }
@@ -38,7 +38,7 @@ export class HomePage {
       }
     })
 
-    this.initFcm()
+    // this.initFcm()
   }
 
   signOff(){
@@ -55,20 +55,20 @@ export class HomePage {
       })
   }
 
-   initFcm(){
-    if (this.platform.is('cordova')) {
-      this.fcm.onNotification().subscribe(data =>{
-        if (data.wasTapped){
-          // app was closed and the notification was received in the device tray
-          console.log(data)
-          this.userService.displayAlert(data.title, data.content)
-        }
-        else{
-          // app was open
-          console.log(data)
-          this.userService.displayAlert(data.title, data.content)
-        }
-      })
-    }
-  }
+  //  initFcm(){
+  //   if (this.platform.is('cordova')) {
+  //     this.fcm.onNotification().subscribe(data =>{
+  //       if (data.wasTapped){
+  //         // app was closed and the notification was received in the device tray
+  //         console.log(data)
+  //         this.userService.displayAlert(data.title, data.content)
+  //       }
+  //       else{
+  //         // app was open
+  //         console.log(data)
+  //         this.userService.displayAlert(data.title, data.content)
+  //       }
+  //     })
+  //   }
+  // }
 }
