@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MenuServiceProvider } from '../../providers/menu-service/menu-service';
+
+import { CartServiceProvider } from '../../providers/cart-service/cart-service'
+import { UserServiceProvider } from '../../providers/user-service/user-service'
+
 /**
  * Generated class for the MenuDetailPage page.
  *
@@ -26,7 +30,8 @@ export class MenuDetailPage implements OnInit {
       size:'',
       price:0,
       milk:'none',
-      whip:'none'
+      whip:'none',
+      orderId: ''
   };
 
   ngOnInit(): void {
@@ -36,7 +41,8 @@ export class MenuDetailPage implements OnInit {
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public menuList: MenuServiceProvider) {
+              public menuList: MenuServiceProvider, public cartService: CartServiceProvider,
+            public userService: UserServiceProvider) {
   }
 
   initObject(selectedItem) {
@@ -51,16 +57,25 @@ export class MenuDetailPage implements OnInit {
   }
 
   addToCart(){
-    if (this.theCoffee.price == this.theCoffee.small){
-      this.theCoffee.size = 'small';
-    }
-    else if (this.theCoffee.price == this.theCoffee.medium){
-      this.theCoffee.size = 'medium';
-    }
-    else {
-      this.theCoffee.size = 'large';
-    }
+    if (this.userService.success){
+      if (this.theCoffee.price == this.theCoffee.small){
+        this.theCoffee.size = 'small';
+      }
+      else if (this.theCoffee.price == this.theCoffee.medium){
+        this.theCoffee.size = 'medium';
+      }
+      else {
+        this.theCoffee.size = 'large';
+      }
+      
+      this.theCoffee.price = Number(this.theCoffee.price);
+      this.theCoffee.orderId = `${this.theCoffee.id}-${this.theCoffee.price}`;
 
-    console.log('clicked', this.theCoffee);
+      this.cartService.addItem(this.theCoffee);
+      this.userService.displayAlert(`${this.theCoffee.size} ${this.theCoffee.name}`, 'Added to cart');
+    }    
+    else{
+      this.userService.displayAlert('Cannot Add', 'You need to register an account first');
+    }
   }
 }

@@ -17,6 +17,7 @@ import { RewardServiceProvider } from '../providers/reward-service/reward-servic
 import { RewardModalPageModule } from '../pages/reward-modal/reward-modal.module'
 import { FCM } from '@ionic-native/fcm'
 import { MenuServiceProvider } from '../providers/menu-service/menu-service';
+import { CartServiceProvider } from '../providers/cart-service/cart-service';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDi1yVxdqGSWb1rvbYRcZ2_Ku0Okon1-5Y",
@@ -52,7 +53,8 @@ export const firebaseConfig = {
     UserServiceProvider,
     RewardServiceProvider
     ,FCM,
-    MenuServiceProvider
+    MenuServiceProvider,
+    CartServiceProvider
   ]
 })
 export class AppModule {}
