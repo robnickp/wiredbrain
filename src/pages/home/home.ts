@@ -22,6 +22,8 @@ export class HomePage {
   logPage: any
   loggedIn: any
 
+  checkOut: any
+
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth, private userService: UserServiceProvider,
     //private fcm: FCM,
@@ -31,7 +33,7 @@ export class HomePage {
 
   ngOnInit(){
     this.logPage = 'LoginPage'
-
+    this.checkOut = 'CheckoutPage'
     this.afAuth.auth.onAuthStateChanged(user => {
       if (user){
         this.loggedIn = this.userService.user = user.email

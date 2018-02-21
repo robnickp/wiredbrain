@@ -29,8 +29,8 @@ export class MenuDetailPage implements OnInit {
       large:0,
       size:'',
       price:0,
-      milk:'none',
-      whip:'none',
+      milk:'no',
+      whip:'no',
       orderId: ''
   };
 

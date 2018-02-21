@@ -6,6 +6,7 @@ import { AlertController } from 'ionic-angular/components/alert/alert-controller
 import { Storage } from '@ionic/storage'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database'
 import { RewardServiceProvider } from '../reward-service/reward-service';
+import { findLocaleData } from '@angular/common/src/i18n/locale_data_api';
 /*
   Generated class for the UserServiceProvider provider.
 
@@ -24,6 +25,7 @@ export class UserServiceProvider {
   constructor(private afAuth: AngularFireAuth, public alertCtrl: AlertController,
             private storage: Storage, private fbDb: AngularFireDatabase, private reward: RewardServiceProvider) {
     this.items = fbDb.list('/users')
+
   }
 
   displayAlert(alertTitle, alertSub){
@@ -110,9 +112,19 @@ export class UserServiceProvider {
     return this.storageControl('set', theUser, newData)
   }
 
+  userExists(username) {
+    return this.fbDb.list('/users', { query: { orderByChild: 'username', equalTo: username } });
+
+  }
+
+  returnUser(){
+    return Promise.resolve(this.user)
+  }
+
   logOn(user, password){
     return this.afAuth.auth.signInWithEmailAndPassword(user, password)
       .then(result => {
+
         this.storageControl('get', user)
           .then(returned => {
             if (!returned){
